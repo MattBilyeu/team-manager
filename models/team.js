@@ -20,7 +20,11 @@ const teamSchema = new Schema({
         required: true
     },
     users: {
-        type: Array,
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: false
+        }],
         required: true
     }
 });

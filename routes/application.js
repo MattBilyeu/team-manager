@@ -2,6 +2,7 @@ const path = require('path');
 
 const express = require('express');
 
+const authController = require('../controllers/auth');
 const datacontroller = require('../controllers/data');
 
 const router = express.Router();
@@ -10,4 +11,4 @@ router.get('/', (req, res, next) => {
     res.render('../public/index.html')
 });
 
-router.get('/team', datacontroller.getTeam);
+router.post('/login', authController.postLogin);
