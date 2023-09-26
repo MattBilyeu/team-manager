@@ -10,6 +10,7 @@ exports.postLogin = async (req, res, next) => {
             return res.status(401).json({message: 'Email/Password Combination Not Found'})
         }
         req.session.isLoggedIn = true;
+        req.session.role = foundUser.role;
         return res.status(200).json(foundUser)
     }
     catch(err) {
