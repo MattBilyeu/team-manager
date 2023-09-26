@@ -1,8 +1,6 @@
 // Has the various functions to manipulate the database
 
-// Create User
-// Update User
-// Delete User
+
 // Create Team
 // Add Update
 // Add Tip
