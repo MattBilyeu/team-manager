@@ -11,6 +11,7 @@ exports.postLogin = async (req, res, next) => {
         }
         req.session.isLoggedIn = true;
         req.session.role = foundUser.role;
+        req.session.team = foundUser.teamId;
         return res.status(200).json(foundUser)
     }
     catch(err) {
