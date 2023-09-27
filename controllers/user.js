@@ -123,3 +123,7 @@ exports.updateUser = async (req, res, next) => {
         res.status(500).json({message: 'Update failed'})
     }
 }
+
+exports.repopulateUser = async (req, res, next) => {
+    //Returns an updated found user
+}
