@@ -1,24 +1,17 @@
-// Acknowlege Update
-// Remove tip
-// Remove escalation
-
-// Update code to update the team object before saving rather than saving the team from the session.  
-// This will protect in case two people are updating the team at the same time.
-// Create a 'updateSessionTeam' function and call it at the beginning?
-
 const Team = require('../models/team');
 const User = require('../models/user');
 
 peerReviewerFound = async function(team) {
     try {
-        const populatedTeam = await team.populate('users');
+        const populatedTeam = await Team.findById(team._id).populate('users');
         let peerReviewer;
         for (let user of populatedTeam.users) {
             if(user.role === 'Peer Reviewer') {
                 peerReviewer = user;
+                return peerReviewer;
             }
         };
-        return peerReviewer;
+        return null;
     }
     catch(err) {
         console.log(err);
@@ -67,7 +60,15 @@ exports.assignUser = async (req, res, next) => {
             console.log('User is already a member of that team.');
             return res.status(400).json({message: 'User is already a member of that team.'})
         } else {
-            // Add code to ensure the userId doesn't exist on any team.
+            await Team.find().then(teams => {
+                teams.forEach(team => {
+                    const foundIndex = team.users.findIndex(id => id.equals(userId));
+                    if (foundIndex !== -1) {
+                        team.users.splice(foundIndex, 1);
+                        team.save();
+                    }
+                })
+            });
             team.users.push(userId);
             await team.save();
             return res.status(201).json({message: 'User successfully assigned to team.'})
@@ -77,7 +78,7 @@ exports.assignUser = async (req, res, next) => {
         console.log(err);
         res.status(500).json({message: 'Assign user failed'})
     }
-}
+};
 
 exports.addUpdate = async (req, res, next) => {
     if (req.session.role !== 'Manager') {
@@ -105,7 +106,41 @@ exports.addUpdate = async (req, res, next) => {
         console.log(err);
         res.status(500).json({message: 'Add update failed'});
     }
-}
+};
+
+exports.acknowledgeUpdate = async (req, res, next) => {
+    const updateIndex = req.body.updateIndex;
+    const userId = req.body.userId;
+    try {
+        const team = await Team.findById(req.session.team._id);
+        team.updates.acknowledged[updateIndex].push(userId);
+        await team.save();
+        return res.status(201).json({message: 'Update acknowledged'})
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json({message: 'Acknowledge Update Failed'});
+    }
+};
+
+exports.removeUpdate = async (req, res, next) => {
+    if (!req.session.team) {
+        console.log('Must be a member of a team to remove an update.');
+        return res.status(400).json({message: 'Must be a member of a team to remove an update.'})
+    };
+    try {
+        const updateIndex = req.body.updateIndex;
+        let team = await Team.findById(req.session.team._id);
+        team.updates.splice(updateIndex, 1);
+        await team.save();
+        console.log('Update removed');
+        return res.status(201).json({message: 'Update removed'})
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({message: 'Remove update failed'});
+    }
+};
 
 exports.addTip = async (req, res, next) => {
     if (req.session.role !== 'Manager') {
@@ -132,7 +167,21 @@ exports.addTip = async (req, res, next) => {
         console.log(err);
         res.status(500).json({message: 'Add tip failed'});
     }
-}
+};
+
+exports.removeTip = async (req, res, next) => {
+    const tipIndex = req.body.tipIndex;
+    try {
+        const team = await Team.findById(req.session.team._id);
+        team.tips.splice(tipIndex, 1);
+        await team.save();
+        return res.status(201).json({message: 'Tip removed'})
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({message: 'Remove tip failed'});
+    }
+};
 
 exports.addEscalation = async (req, res, next) => {
     if (!req.session.team) {
@@ -140,11 +189,12 @@ exports.addEscalation = async (req, res, next) => {
         return res.status(400).json({message: 'Must be a member of a team to add an escalation.'})
     };
     try {
+        const team = await Team.findById(req.session.team._id);
         const title = req.body.title;
         const text = req.body.text;
         const ownerId = req.body.userId;
         let stage = 'Peer Review';
-        if (!peerReviewerFound(req.session.team)) {
+        if (!peerReviewerFound(team)) {
             stage = 'Manager'
         };
         const escalation = {
@@ -153,8 +203,8 @@ exports.addEscalation = async (req, res, next) => {
             stage: stage,
             owner: ownerId
         };
-        req.session.team.escalations.push(escalation);
-        await req.session.team.save();
+        team.escalations.push(escalation);
+        await team.save();
         console.log('Escalation added');
         return res.status(201).json({message: 'Escalation added'})
     }
@@ -167,7 +217,7 @@ exports.addEscalation = async (req, res, next) => {
 exports.advanceEscalation = async (req, res, next) => {
     try {
         const i = req.body.escalationIndex;
-        let team = req.session.team;
+        let team = await Team.findById(req.session.team._id);
         let peerReview = peerReviewerFound(team);
         if (team.escalations[i].stage === 'Member' && peerReview) {
             team.escalations[i].stage = 'Peer Review';
@@ -186,21 +236,16 @@ exports.advanceEscalation = async (req, res, next) => {
     }
 };
 
-exports.removeUpdate = async (req, res, next) => {
-    if (!req.session.team) {
-        console.log('Must be a member of a team to remove an update.');
-        return res.status(400).json({message: 'Must be a member of a team to remove an update.'})
-    };
+exports.removeEscalation = async (req, res, next) => {
     try {
-        const updateIndex = req.body.updateIndex;
-        let team = req.session.team;
-        team.updates.splice(updateIndex, 1);
+        const eI = req.body.escalationIndex;
+        const team = await Team.findById(req.session.team._id);
+        team.escalations.splice(eI, 1);
         await team.save();
-        console.log('Update removed');
-        return res.status(201).json({message: 'Update removed'})
+        return res.status(201).json({message: 'Escalation removed'})
     }
-    catch (err) {
+    catch(err) {
         console.log(err);
-        res.status(500).json({message: 'Remove update failed'});
+        res.status(500).json({message: 'Remove escalation failed'});
     }
-}
+};
