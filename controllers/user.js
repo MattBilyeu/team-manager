@@ -125,5 +125,18 @@ exports.updateUser = async (req, res, next) => {
 }
 
 exports.repopulateUser = async (req, res, next) => {
-    //Returns an updated found user
+    if (!req.session.loggedIn) {
+        console.log('Must be logged in');
+        res.status(400).json({message: 'Must be logged in'})
+    };
+    try {
+        const foundUser = await User.findById(req.session.loginId).populate('teamId');
+        req.session.role = foundUser.role;
+        req.session.team = foundUser.teamId;
+        return res.status(200).json(foundUser);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json({message: 'Repopulate User Failed'})
+    }
 }

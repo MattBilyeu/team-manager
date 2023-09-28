@@ -249,3 +249,19 @@ exports.removeEscalation = async (req, res, next) => {
         res.status(500).json({message: 'Remove escalation failed'});
     }
 };
+
+exports.deleteTeam = async (req, res, next) => {
+    if (req.session.role !== 'Admin') {
+        console.log('Insufficient User Permissions');
+        return res.status(400).json({message: 'Contact an Admin to delete a team'}); 
+    };
+    try {
+        const teamId = req.body.teamId;
+        await Team.findByIdAndDelete(teamId);
+        return res.status(201).json({message: 'Team deleted'});
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json({message: 'Delete team failed'});
+    }
+};
