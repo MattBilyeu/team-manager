@@ -16,6 +16,10 @@ import { EscalationsComponent } from './escalations/escalations.component';
 import { CreateUpdateComponent } from './mgr-dash/create-update/create-update.component';
 import { CreateTipComponent } from './mgr-dash/create-tip/create-tip.component';
 import { UserComponent } from './mgr-dash/user/user.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { TeamAdminComponent } from './admin-dash/team-admin/team-admin.component';
+import { UserAdminComponent } from './admin-dash/user-admin/user-admin.component';
+import { DataService } from './data-service';
 
 @NgModule({
   declarations: [
@@ -32,13 +36,16 @@ import { UserComponent } from './mgr-dash/user/user.component';
     EscalationsComponent,
     CreateUpdateComponent,
     CreateTipComponent,
-    UserComponent
+    UserComponent,
+    ChangePasswordComponent,
+    TeamAdminComponent,
+    UserAdminComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
