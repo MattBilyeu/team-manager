@@ -1,8 +1,11 @@
 <header>
-  <nav>
-    <button>Dashboard</button>
-    <button>Updates</button>
-    <button>Tips</button>
+  <nav *ngIf="loginService.loggedIn">
+    <div class="pageButtons">
+      <button>Dashboard</button>
+      <button>Updates</button>
+      <button>Tips</button>
+    </div>
+    <button>Logout</button>
   </nav>
 </header>
 <router-outlet></router-outlet>

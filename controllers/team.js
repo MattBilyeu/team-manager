@@ -199,7 +199,7 @@ exports.addEscalation = async (req, res, next) => {
         };
         const escalation = {
             title: title,
-            text: text,
+            notes: [text],
             stage: stage,
             owner: ownerId
         };
@@ -217,6 +217,7 @@ exports.addEscalation = async (req, res, next) => {
 exports.advanceEscalation = async (req, res, next) => {
     try {
         const i = req.body.escalationIndex;
+        const note = req.body.note;
         let team = await Team.findById(req.session.team._id);
         let peerReview = peerReviewerFound(team);
         if (team.escalations[i].stage === 'Member' && peerReview) {
@@ -226,6 +227,7 @@ exports.advanceEscalation = async (req, res, next) => {
         } else {
             team.escalations[i].stage = 'Member'
         } 
+        team.escalations[i].notes.push(note);
         await team.save();
         console.log('Escalation advanced');
         return res.status(201).json({message: 'Escalation advanced'})

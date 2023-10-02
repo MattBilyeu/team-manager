@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Team = require('../models/team');
 
 exports.createUser = async (req, res, next) => {
     const name = req.body.name;
@@ -7,6 +8,7 @@ exports.createUser = async (req, res, next) => {
     const role = req.body.role;
     const teamId = req.body.teamId;
     const existingUser = await User.findOne({email: email});
+    const team = await Team.findById(teamId);
     if (existingUser) {
         return res.status(409).json({message: 'A user with that email already exists.'})
     };
@@ -22,13 +24,29 @@ exports.createUser = async (req, res, next) => {
     newUser.save()
         .then(result => {
             console.log('User Created');
-            res.json({message: 'User Created'})
+            const newUser = User.findOne({email: email});
+            team.users.push(newUser._Id);
+            team.save();
+            res.json({message: 'User Created'});
         })
         .catch(err => {
             console.log(err);
             res.status(500).json({message: 'User Creation Failed'})
         })
 };
+
+exports.findUserById = async (req, res, next) => {
+    try {
+        const userId = req.body.userId;
+        const user = await User.findById(userId);
+        user.password = 'redacted';
+        res.status(200).json(user);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json({message: 'Find User Failed'})
+    }
+}
 
 exports.changePassword = async (req, res, next) => {
     const email = req.body.email;

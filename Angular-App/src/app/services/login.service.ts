@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DataService } from '../data-service';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { Team } from '../models/team.model';
@@ -8,9 +7,10 @@ import { Team } from '../models/team.model';
   providedIn: 'root'
 })
 export class LoginService {
+  loggedIn = false;
+  user: User = new User('', '', '', '', new Team('', [], [], [], []), '', '');
 
-  constructor(private dataService: DataService,
-              private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   login(email: string, password: string) {
     const loginData = { email, password };
@@ -31,7 +31,8 @@ export class LoginService {
           foundUser.primaryTask,
           foundUser.floatTask
         );
-        this.dataService.user = appUser;
+        this.user = appUser;
+        this.loggedIn = true;
       },
       (error) => {
         console.log('An error was encountered.',error)
