@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { Team } from '../models/team.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  loggedIn = false;
+  loggedIn = new Subject<boolean>();
   user: User = new User('', '', '', '', new Team('', [], [], [], []), '', '');
 
   constructor(private http: HttpClient) { }
@@ -32,7 +33,7 @@ export class LoginService {
           foundUser.floatTask
         );
         this.user = appUser;
-        this.loggedIn = true;
+        this.loggedIn.next(true);
       },
       (error) => {
         console.log('An error was encountered.',error)
