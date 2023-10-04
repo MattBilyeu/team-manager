@@ -40,4 +40,30 @@ export class LoginService {
       }
     )
   }
+
+  repopulateUser() {
+    this.http.post('/user/repopulate-user', {}).subscribe(
+      (foundUser: any) => {
+        const appUser = new User(
+          foundUser.name,
+          foundUser.email,
+          foundUser.password,
+          foundUser.role,
+          new Team(
+            foundUser.teamId.name,
+            foundUser.teamId.updates,
+            foundUser.teamId.tips,
+            foundUser.teamId.escalations,
+            foundUser.teamId.users
+          ),
+          foundUser.primaryTask,
+          foundUser.floatTask
+        );
+        this.user = appUser;
+      },
+      (error) => {
+        console.log('An error was encountered.',error)
+      }
+    )
+  }
 }

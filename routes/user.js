@@ -16,4 +16,6 @@ router.post('/delete-user', userController.deleteUser);
 
 router.post('/update-user', userController.updateUser);
 
-router.post('/repopulateUser', userController.repopulateUser);
+router.post('/find-user', userController.findUserById);
+
+router.post('/repopulate-user', userController.repopulateUser);
