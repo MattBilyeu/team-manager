@@ -19,3 +19,5 @@ router.post('/update-user', userController.updateUser);
 router.post('/find-user', userController.findUserById);
 
 router.post('/repopulate-user', userController.repopulateUser);
+
+router.post('/get-users', userController.returnAllUsers);

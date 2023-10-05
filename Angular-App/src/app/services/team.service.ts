@@ -61,4 +61,8 @@ export class TeamService {
     const body = {teamId: teamId};
     return this.http.post('/team/delete-team', body);
   }
+
+  returnAllTeams() {
+    return this.http.post('/team/get-teams', {})
+  }
 }

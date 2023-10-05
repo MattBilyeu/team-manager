@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 })
 export class LoginService {
   loggedIn = new Subject<boolean>();
-  user: User = new User('', '', '', '', new Team('', [], [], [], []), '', '');
+  user: User = new User('', '', '', '', '', new Team('', '', [], [], [], []), '', '');
 
   constructor(private http: HttpClient) { }
 
@@ -18,11 +18,13 @@ export class LoginService {
     this.http.post('/login', loginData).subscribe(
       (foundUser: any) => {
         const appUser = new User(
+          foundUser._id,
           foundUser.name,
           foundUser.email,
           foundUser.password,
           foundUser.role,
           new Team(
+            foundUser.teamId._id,
             foundUser.teamId.name,
             foundUser.teamId.updates,
             foundUser.teamId.tips,
@@ -45,11 +47,13 @@ export class LoginService {
     this.http.post('/user/repopulate-user', {}).subscribe(
       (foundUser: any) => {
         const appUser = new User(
+          foundUser._id,
           foundUser.name,
           foundUser.email,
           foundUser.password,
           foundUser.role,
           new Team(
+            foundUser.teamId._id,
             foundUser.teamId.name,
             foundUser.teamId.updates,
             foundUser.teamId.tips,

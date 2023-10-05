@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Team } from 'src/app/models/team.model';
+import { User } from 'src/app/models/user.model';
 import { TeamService } from 'src/app/services/team.service';
+import { UserService } from 'src/app/services/user.service';
 
 interface response {
   message: string;
@@ -11,10 +14,24 @@ interface response {
   templateUrl: './team-admin.component.html',
   styleUrls: ['./team-admin.component.css']
 })
-export class TeamAdminComponent {
+export class TeamAdminComponent implements OnInit {
   response: string = '';
+  teams: Team[];
+  users: User[];
 
-  constructor(private teamService: TeamService) {}
+  constructor(private teamService: TeamService,
+              private userService: UserService) {}
+
+  ngOnInit(){
+    this.teamService.returnAllTeams()
+      .subscribe((result: Team[]) => {
+        this.teams = result;
+      })
+    this.userService.returnAllUsers()
+      .subscribe((result: User[]) => {
+        this.users = result; // All user passwords are changed to "redacted" by the nodejs app before returning.
+      })
+  }
 
   createTeam(name: string) {
     this.teamService.createTeam(name).subscribe((result: response) => {

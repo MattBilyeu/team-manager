@@ -25,3 +25,5 @@ router.post('/advance-escalation', teamController.advanceEscalation);
 router.post('/remove-escalation', teamController.removeEscalation);
 
 router.post('/delete-team', teamController.deleteTeam);
+
+router.post('/get-teams', teamController.returnAllTeams);

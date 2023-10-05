@@ -36,6 +36,10 @@ export class UserService {
   returnUserById(userId: string) {
     const body = {userId: userId};
     return this.http.post('/user/find-user', body);
-    // Returns everything but the password for the user with that Id.
+    // Returns everything but the password for the user with that Id.  Password is returned but changed to "redacted".
+  }
+
+  returnAllUsers() {
+    return this.http.post('/user/get-users', {})
   }
 }

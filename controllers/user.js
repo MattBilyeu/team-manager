@@ -158,3 +158,21 @@ exports.repopulateUser = async (req, res, next) => {
         res.status(500).json({message: 'Repopulate User Failed'})
     }
 }
+
+exports.returnAllUsers = async (req, res, next) => {
+    if (req.session.role !== 'Admin') {
+        console.log('Insufficient User Permissions');
+        return res.status(400).json({message: 'Contact an Admin to access all users data'});
+    };
+    try {
+        const users = await User.find().toArray();
+        users.forEach(user => {
+            user.password = 'redacted';
+        });
+        return res.status(200).json(users);
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json({message: 'Get users failed'})
+    }
+}
