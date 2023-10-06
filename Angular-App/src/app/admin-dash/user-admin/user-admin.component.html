@@ -52,7 +52,8 @@
     </div>
     <div class="updateUser">
         <div *ngFor="let user of users">
-            <app-user-update [user]="user" *ngIf="selectedId === user._id"></app-user-update>
+            <h3 (click)="selectUser(user._id)">{{ user.name }}</h3>
+            <app-user-update [user]="user" *ngIf="selectedId === user._id" (userUpdated)="refreshData()"></app-user-update>
         </div>
     </div>
     <div class="deleteUser">

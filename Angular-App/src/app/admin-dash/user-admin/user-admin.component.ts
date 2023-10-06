@@ -38,14 +38,6 @@ export class UserAdminComponent implements OnInit {
       })
   }
 
-  updateUser(form: NgForm) {
-    const value = form.value;
-    this.userService.updateUser(value.name, value.newEmail, value.oldEmail, value.password, value.role, value.teamId)
-      .subscribe(result => {
-        this.refreshData();
-      })
-  }
-
   refreshData() {
     this.teamService.returnAllTeams().subscribe((teams: Team[]) => {
       this.teams = teams;
@@ -56,6 +48,11 @@ export class UserAdminComponent implements OnInit {
   }
 
   selectUser(userId) {
-    this.selectedId = userId;
+    if(this.selectedId !== userId) {
+      this.selectedId = userId;
+    } else {
+      this.selectedId = ''
+    }
+
   }
 }
