@@ -19,7 +19,8 @@ import { UserComponent } from './mgr-dash/user/user.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { TeamAdminComponent } from './admin-dash/team-admin/team-admin.component';
 import { UserAdminComponent } from './admin-dash/user-admin/user-admin.component';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
+import { UserUpdateComponent } from './admin-dash/user-admin/user-update/user-update.component'
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { FormsModule } from '@angular/forms'
     UserComponent,
     ChangePasswordComponent,
     TeamAdminComponent,
-    UserAdminComponent
+    UserAdminComponent,
+    UserUpdateComponent
   ],
   imports: [
     BrowserModule,

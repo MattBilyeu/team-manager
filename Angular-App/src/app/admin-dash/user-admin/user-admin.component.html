@@ -51,9 +51,9 @@
         </form>
     </div>
     <div class="updateUser">
-        <form (ngSubmit)="updateUser(u)" #u="ngForm">
-            Drop down where you select the user and then it populates?
-        </form>
+        <div *ngFor="let user of users">
+            <app-user-update [user]="user" *ngIf="selectedId === user._id"></app-user-update>
+        </div>
     </div>
     <div class="deleteUser">
         <form (ngSubmit)="deleteUser(d)" #d="ngForm">

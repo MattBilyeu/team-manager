@@ -14,6 +14,7 @@ import { NgForm } from '@angular/forms';
 export class UserAdminComponent implements OnInit {
   teams: Team[];
   users: User[];
+  selectedId: string;
 
   constructor(private userService: UserService,
               private teamService: TeamService,
@@ -52,5 +53,9 @@ export class UserAdminComponent implements OnInit {
     this.userService.returnAllUsers().subscribe((users: User[]) => {
       this.users = users;
     })
+  }
+
+  selectUser(userId) {
+    this.selectedId = userId;
   }
 }
