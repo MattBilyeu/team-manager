@@ -19,7 +19,7 @@ import { UserComponent } from './mgr-dash/user/user.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { TeamAdminComponent } from './admin-dash/team-admin/team-admin.component';
 import { UserAdminComponent } from './admin-dash/user-admin/user-admin.component';
-import { DataService } from './data-service';
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -43,9 +43,10 @@ import { DataService } from './data-service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
-  providers: [DataService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

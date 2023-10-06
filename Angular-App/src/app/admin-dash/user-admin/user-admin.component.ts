@@ -1,33 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { UserService } from 'src/app/services/user.service';
+import { TeamService } from 'src/app/services/team.service';
+import { Team } from 'src/app/models/team.model';
+import { User } from 'src/app/models/user.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-user-admin',
   templateUrl: './user-admin.component.html',
   styleUrls: ['./user-admin.component.css']
 })
-export class UserAdminComponent {
+export class UserAdminComponent implements OnInit {
+  teams: Team[];
+  users: User[];
 
   constructor(private userService: UserService,
+              private teamService: TeamService,
               private loginService: LoginService) {}
 
-  createUser(name: string, email: string, password: string, role: string, teamId: string) {
-    this.userService.createUser(name, email, password, role, teamId);
-    this.loginService.repopulateUser();
-  } // Will need to add a function that gets all of the teams with their names and ids.  TeamId would then be selected from a dropdown.
+  ngOnInit() {
+    this.refreshData();
+  }
 
-  deleteUser(email: string) {
+  createUser(form: NgForm) {
+    const value = form.value;
+    this.userService.createUser(value.name, value.email, value.password, value.role, value.teamId);
+    this.refreshData();
+  }
+
+  deleteUser(form: NgForm) {
+    const email = form.value.email;
     this.userService.deleteUser(email)
       .subscribe(result => {
-        //Admin repopulate function, teams/users
+        this.refreshData();
       })
   }
 
-  updateUser(name: string, newEmail: string, oldEmail: string, password: string, role: string, teamId: string) {
-    this.userService.updateUser(name, newEmail, oldEmail, password, role, teamId)
+  updateUser(form: NgForm) {
+    const value = form.value;
+    this.userService.updateUser(value.name, value.newEmail, value.oldEmail, value.password, value.role, value.teamId)
       .subscribe(result => {
-        //Admin repopulate function, teams/users
+        this.refreshData();
       })
+  }
+
+  refreshData() {
+    this.teamService.returnAllTeams().subscribe((teams: Team[]) => {
+      this.teams = teams;
+    });
+    this.userService.returnAllUsers().subscribe((users: User[]) => {
+      this.users = users;
+    })
   }
 }
