@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
+import { NgForm } from '@angular/forms';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-change-password',
@@ -8,10 +10,12 @@ import { UserService } from '../services/user.service';
 })
 export class ChangePasswordComponent {
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,
+              public loginService: LoginService) {}
 
-  changePassword(email: string, oldPassword: string, newPassword: string) {
-    this.userService.changePassword(email, oldPassword, newPassword);
+  changePassword(form: NgForm) {
+    const value = form.value;
+    this.userService.changePassword(value.email, value.oldPassword, value.newPassword);
   }
 
 }

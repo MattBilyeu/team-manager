@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Team } from 'src/app/models/team.model';
 import { User } from 'src/app/models/user.model';
 import { TeamService } from 'src/app/services/team.service';
@@ -29,20 +30,28 @@ export class TeamAdminComponent implements OnInit {
       })
     this.userService.returnAllUsers()
       .subscribe((result: User[]) => {
-        this.users = result; // All user passwords are changed to "redacted" by the nodejs app before returning.
+        this.users = result;
       })
   }
 
-  createTeam(name: string) {
-    this.teamService.createTeam(name).subscribe((result: response) => {
+  createTeam(form: NgForm) {
+    this.teamService.createTeam(form.value.name).subscribe((result: response) => {
       this.response = result.message;
     })
   }
 
-  assignUser(userId: string, teamId: string) {
-    this.teamService.assignUser(userId, teamId).subscribe((result: response) => {
+  assignUser(form: NgForm) {
+    const value = form.value;
+    this.teamService.assignUser(value.userId, value.teamId).subscribe((result: response) => {
       this.response = result.message;
     })
+  }
+
+  confirmDeleteTeam(form: NgForm) {
+    const confirmation = confirm('Are you sure you want to delete this team?  Deletions are irreversible.')
+    if (confirmation) {
+      this.deleteTeam(form.value.teamId);
+    }
   }
 
   deleteTeam(teamId: string) {

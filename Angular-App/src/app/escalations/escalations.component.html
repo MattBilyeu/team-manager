@@ -1,1 +1,13 @@
 <p>escalations works!</p>
+<div class="container">
+    <div class="escalation" *ngFor="let escalation of escalations">
+        <div class="group">
+            <label for="title">Title:</label>
+            <p>{{ escalation.title }}</p>
+            <label for="note">Last note:</label>
+            <p>{{ escalation.note }}</p>
+            <label for="owner">Owner</label>
+            <p>{{ escalation.owner }}</p>
+        </div>
+    </div>
+</div>
