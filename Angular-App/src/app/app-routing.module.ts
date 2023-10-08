@@ -6,6 +6,7 @@ import { MgrDashComponent } from './mgr-dash/mgr-dash.component';
 import { UserDashComponent } from './user-dash/user-dash.component';
 import { UpdatesComponent } from './updates/updates.component';
 import { TipsComponent } from './tips/tips.component';
+import { EscalationDetailComponent } from './escalations/escalation-detail/escalation-detail.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path: "user-dash", component: UserDashComponent},
 
   {path: "updates", component: UpdatesComponent},
-  {path: "tips", component: TipsComponent}
+  {path: "tips", component: TipsComponent},
+  {path: "escalation-detail/:index", component: EscalationDetailComponent}
 ];
 
 @NgModule({

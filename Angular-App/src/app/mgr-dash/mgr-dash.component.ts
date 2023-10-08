@@ -26,16 +26,4 @@ export class MgrDashComponent {
       this.response = result.message;
     })
   }
-
-  addEscalation(title: string, note: string, ownerId: string) {
-    this.teamService.addEscalation(title, note, ownerId).subscribe((result: response) => {
-      this.response = result.message;
-    })
-  }
-
-  advanceEscalation(escalationIndex: number, note: string) {
-    this.teamService.advanceEscalation(escalationIndex, note).subscribe((result: response) => {
-      this.response = result.message;
-    })
-  }
 }

@@ -20,7 +20,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { TeamAdminComponent } from './admin-dash/team-admin/team-admin.component';
 import { UserAdminComponent } from './admin-dash/user-admin/user-admin.component';
 import { FormsModule } from '@angular/forms';
-import { UserUpdateComponent } from './admin-dash/user-admin/user-update/user-update.component'
+import { UserUpdateComponent } from './admin-dash/user-admin/user-update/user-update.component';
+import { EscalationDetailComponent } from './escalations/escalation-detail/escalation-detail.component'
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { UserUpdateComponent } from './admin-dash/user-admin/user-update/user-up
     ChangePasswordComponent,
     TeamAdminComponent,
     UserAdminComponent,
-    UserUpdateComponent
+    UserUpdateComponent,
+    EscalationDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { TeamService } from '../services/team.service';
 
 interface response {
   message: string;
@@ -13,23 +12,7 @@ interface response {
 export class UserDashComponent {
   response: string = '';
 
-  constructor(private teamService: TeamService) {}
+  constructor() {}
 
-  addEscalation(title: string, note: string, ownerId: string) {
-    this.teamService.addEscalation(title, note, ownerId).subscribe((result: response) => {
-      this.response = result.message;
-    })
-  }
 
-  advanceEscalation(escalationIndex: number, note: string) {
-    this.teamService.advanceEscalation(escalationIndex, note).subscribe((result: response) => {
-      this.response = result.message;
-    })
-  }
-
-  removeEscalation(escalationIndex: number) {
-    this.teamService.removeEscalation(escalationIndex).subscribe((result: response) => {
-      this.response = result.message;
-    })
-  }
 }
