@@ -3,6 +3,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { TeamService } from 'src/app/services/team.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
+import { NgForm } from '@angular/forms';
 
 interface response {
   message: string;
@@ -30,16 +31,18 @@ export class UserComponent implements OnInit {
     })
   }
 
-  createUser(name: string, email: string, password: string, role: string) {
+  createUser(form: NgForm) {
+    const value = form.value;
     const teamId = this.loginService.user.teamId._id;
-    this.userService.createUser(name, email, password, role, teamId)
+    this.userService.createUser(value.name, value.email, value.password, value.role, teamId)
       .subscribe(result => {
         this.loginService.repopulateUser();
       });
   }
 
-  assignTasks(email: string, primaryTask: string, floatTask: string) {
-    this.userService.assignTasks(email, primaryTask, floatTask)
+  assignTasks(form: NgForm) {
+    const value = form.value;
+    this.userService.assignTasks(value.email, value.primaryTask, value.floatTask)
     .subscribe(result => {
       this.loginService.repopulateUser();
     });

@@ -31,10 +31,10 @@ export class MgrUpdateComponent implements OnInit {
   ngOnInit() {
     this.loginService.user.teamId.updates.forEach((update: Update) => {
       const notAcknowledged = [];
-      update.acknowledged.forEach(async id => { // Won't work, is only going to run this for the id's within the acknowledged list.  I need to run the forEach on the full user's list.
-        if(this.loginService.user.teamId.users.findIndex(userId => userId === id) === -1){
-          const name = await this.userService.returnUserById(id).subscribe((user: User) => user.name);
-          notAcknowledged.push(name);
+      this.loginService.user.teamId.users.forEach(async (userId: string) => {
+        if (update.acknowledged.findIndex((id) => id === userId) === -1) {
+          const userName = await this.userService.returnUserById(userId).subscribe((user: User) => {return user.name});
+          notAcknowledged.push(userName)
         }
       });
       const packagedUpdate = {update, notAcknowledged};

@@ -1,9 +1,4 @@
 import { Component } from '@angular/core';
-import { TeamService } from '../services/team.service';
-
-interface response {
-  message: string;
-}
 
 @Component({
   selector: 'app-mgr-dash',
@@ -12,5 +7,5 @@ interface response {
 })
 export class MgrDashComponent {
 
-  constructor(private teamService: TeamService) {}
+  constructor() {}
 }
