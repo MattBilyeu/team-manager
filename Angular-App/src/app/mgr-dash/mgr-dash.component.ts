@@ -11,19 +11,6 @@ interface response {
   styleUrls: ['./mgr-dash.component.css']
 })
 export class MgrDashComponent {
-  response: string = '';
 
   constructor(private teamService: TeamService) {}
-
-  removeUpdate(updateIndex: number) {
-    this.teamService.removeUpdate(updateIndex).subscribe((result: response) => {
-      this.response = result.message;
-    })
-  }
-
-  removeTip(tipIndex: number) {
-    this.teamService.removeTip(tipIndex).subscribe((result: response) => {
-      this.response = result.message;
-    })
-  }
 }

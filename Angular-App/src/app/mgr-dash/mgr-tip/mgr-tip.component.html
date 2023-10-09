@@ -1,0 +1,19 @@
+<p>create-tip works!</p>
+<div class="container">
+    <div class="addTip">
+        <form (ngSubmit)="addTip(t)" #t="ngForm">
+            <div class="group">
+                <label for="category">Category: </label>
+                <input type="text" id="category" name="category" ngModel required>
+                <label for="tipText">Tip Text</label>
+                <textarea name="text" id="text" cols="30" rows="10" ngModel required></textarea>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="tip" *ngFor="let tip of tips; let i = index">
+        <h3>Category: {{ tip.tipCategory }}</h3>
+        <p>{{ tip.tipText }}</p>
+        <button (click)="removeTip(i)">Remove Tip</button>
+    </div>
+</div>
