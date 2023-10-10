@@ -7,11 +7,6 @@ interface response {
   message: string;
 }
 
-interface Tip {
-  tipCategory: string,
-  tipText: string
-}
-
 @Component({
   selector: 'app-mgr-tip',
   templateUrl: './mgr-tip.component.html',
@@ -19,15 +14,13 @@ interface Tip {
 })
 export class MgrTipComponent implements OnInit {
   response: string = '';
-  tips: Tip[];
+  tips: {category: string, text: string}[];
 
   constructor(private teamService: TeamService,
               private loginService: LoginService) {}
 
   ngOnInit() {
-    this.loginService.user.teamId.tips.forEach((tip: Tip) => {
-      this.tips.push(tip);
-    })
+    this.tips = this.loginService.user.teamId.tips;
   }
 
   addTip(form: NgForm) {

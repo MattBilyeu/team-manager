@@ -12,8 +12,8 @@
         </form>
     </div>
     <div class="tip" *ngFor="let tip of tips; let i = index">
-        <h3>Category: {{ tip.tipCategory }}</h3>
-        <p>{{ tip.tipText }}</p>
+        <h3>Category: {{ tip.category }}</h3>
+        <p>{{ tip.text }}</p>
         <button (click)="removeTip(i)">Remove Tip</button>
     </div>
 </div>

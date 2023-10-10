@@ -1,1 +1,7 @@
 <p>updates works!</p>
+<div class="container">
+    <div class="group" *ngFor="let update of updates">
+        <h3>{{ update.category }}</h3>
+        <p>{{ update.text }}</p>
+    </div>
+</div>
