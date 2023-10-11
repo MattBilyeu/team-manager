@@ -1,6 +1,6 @@
 <p>user-admin works!</p>
 <div class="container">
-    <div class="createUser">
+    <div class="subcontainer">
         <form (ngSubmit)="createUser(c)" #c="ngForm">
             <div class="group">
                 <label for="name">Name</label>
@@ -50,13 +50,13 @@
             <button type="submit" [disabled]="!c.valid">Create User</button>
         </form>
     </div>
-    <div class="updateUser">
+    <div class="subcontainer">
         <div *ngFor="let user of users">
             <h3 (click)="selectUser(user._id)">{{ user.name }}</h3>
             <app-user-update [user]="user" *ngIf="selectedId === user._id" (userUpdated)="refreshData()"></app-user-update>
         </div>
     </div>
-    <div class="deleteUser">
+    <div class="subcontainer">
         <form (ngSubmit)="deleteUser(d)" #d="ngForm">
             <select name="email" id="email" ngModel required>
                 <option *ngFor="let user of users" [value]="user.email">{{ user.name }}, {{ user.email }}</option>

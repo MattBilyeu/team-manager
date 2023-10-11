@@ -1,6 +1,6 @@
 <p>new-update works!</p>
 <div class="container">
-    <div class="group" *ngFor="let p of packagedUpdates; let i = index">
+    <div class="subcontainer" *ngFor="let p of packagedUpdates; let i = index">
         <h3>{{ p.update.category }}</h3>
         <p>{{ p.update.text }}</p>
         <button (click)="acknowledgeUpdate(p.index, i)">Acknowledge</button>

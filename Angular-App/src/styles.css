@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+HTML,
+Body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    gap: 1rem;
+    background-color: lightslategray;
+    color: darkcyan;
+    margin: 0 auto;
+    border-radius: 30px;
+}
+
+.subcontainer {
+    background-color: lightcyan;
+    color: darkslategrey;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 30px;
+}
+
+.group {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+}
+
+button {
+    padding: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 30px;
+    box-shadow: 4px 4px 2px black;
+}

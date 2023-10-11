@@ -1,1 +1,10 @@
 <p>escalation-detail works!</p>
+<div class="subcontainer">
+    <h3>Update Escalation</h3>
+    <form #a="ngForm" (ngSubmit)="advanceEscalation(a)">
+        <h3>Add Note:</h3>
+        <textarea ngModel required name="note" id="note" cols="30" rows="10"></textarea>
+        <button type="submit">Advance Escalation</button>
+    </form>
+    <button (click)="removeEscalation()">Remove Escalation</button>
+</div>

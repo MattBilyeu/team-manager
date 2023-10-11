@@ -1,6 +1,6 @@
 <p>escalations works!</p>
 <div class="container">
-    <div class="formContainer">
+    <div class="subcontainer">
         <form (ngSubmit)="addEscalation(e)" #e="ngForm">
             <div class="group">
                 <label for="title">Title:</label>
@@ -13,12 +13,16 @@
             <button type="submit">Add Escalation</button>
         </form>
     </div>
-    <div class="escalation" *ngFor="let e of escalations; let i = index" (click)="selectEscalation(i)">
+    <div class="subcontainer" *ngFor="let e of escalations; let i = index" (click)="selectEscalation(i)">
         <div class="group">
             <label for="title">Title:</label>
             <p>{{ e.escalation.title }}</p>
+        </div>
+        <div class="group">
             <label for="note">Last note:</label>
             <p>{{ e.escalation.note }}</p>
+        </div>
+        <div class="group">
             <label for="owner">Owner</label>
             <p>{{ e.escalation.ownerId }}</p>
         </div>

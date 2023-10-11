@@ -6,7 +6,7 @@ const router = express.Router();
 
 const userController = require('../controllers/user');
 
-router.post('/create-user', userController.createTeam);
+router.post('/create-user', userController.createUser);
 
 router.post('/change-password', userController.changePassword);
 

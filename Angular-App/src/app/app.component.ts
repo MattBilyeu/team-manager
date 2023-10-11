@@ -40,7 +40,25 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  routeToTips() {
+    this.router.navigate(['/tips'])
+  }
+
+  routeToUpdates() {
+    this.router.navigate(['/updates'])
+  }
+
+  routeToChangePassword() {
+    this.router.navigate(['/change-password'])
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  logOut() {
+    this.loginService.user = null;
+    this.loggedIn = false;
+    this.router.navigate(['/login']);
   }
 }

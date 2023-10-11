@@ -1,10 +1,10 @@
 <header>
   <nav *ngIf="loggedIn">
     <div class="pageButtons">
-      <button>Dashboard</button>
-      <button>Updates</button>
-      <button>Tips</button>
-      <button>Change Password</button>
+      <button (click)="routeToDash()">Dashboard</button>
+      <button (click)="routeToUpdates()">Updates</button>
+      <button (click)="routeToTips()">Tips</button>
+      <button (click)="routeToChangePassword()">Change Password</button>
     </div>
     <button>Logout</button>
   </nav>
