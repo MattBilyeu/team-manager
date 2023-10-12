@@ -18,7 +18,7 @@ peerReviewerFound = async function(team) {
     }
 };
 
-exports.createTeam = async (req, res, next) => {
+exports.createTeam = (req, res, next) => {
     const name = req.body.name;
     if (req.session.role !== 'Admin') {
         console.log('Insufficient Permissions');
@@ -38,7 +38,7 @@ exports.createTeam = async (req, res, next) => {
         });
 }
 
-exports.assignUser = async (req, res, next) => {
+exports.assignUser = (req, res, next) => {
     const userId = req.body.userId;
     const teamId = req.body.teamId;
     if (req.session.role !== 'Admin') {
@@ -76,7 +76,7 @@ exports.assignUser = async (req, res, next) => {
     })
 };
 
-exports.addUpdate = async (req, res, next) => {
+exports.addUpdate = (req, res, next) => {
     if (req.session.role !== 'Manager') {
         console.log('Insufficient User Permissions');
         return res.status(400).json({message: 'Contact an Manager to add an update'});
@@ -103,7 +103,7 @@ exports.addUpdate = async (req, res, next) => {
         })
 };
 
-exports.acknowledgeUpdate = async (req, res, next) => {
+exports.acknowledgeUpdate = (req, res, next) => {
     const updateIndex = req.body.updateIndex;
     const userId = req.body.userId;
     Team.findById(req.session.team._id)
@@ -117,7 +117,7 @@ exports.acknowledgeUpdate = async (req, res, next) => {
         })
 };
 
-exports.removeUpdate = async (req, res, next) => {
+exports.removeUpdate = (req, res, next) => {
     if (!req.session.team) {
         console.log('Must be a member of a team to remove an update.');
         return res.status(400).json({message: 'Must be a member of a team to remove an update.'})
@@ -134,7 +134,7 @@ exports.removeUpdate = async (req, res, next) => {
         })
 };
 
-exports.addTip = async (req, res, next) => {
+exports.addTip = (req, res, next) => {
     if (req.session.role !== 'Manager') {
         console.log('Insufficient User Permissions');
         return res.status(400).json({message: 'Contact an Manager to add a tip'});
@@ -160,7 +160,7 @@ exports.addTip = async (req, res, next) => {
         })
 };
 
-exports.removeTip = async (req, res, next) => {
+exports.removeTip = (req, res, next) => {
     const tipIndex = req.body.tipIndex;
     Team.findById(req.session.team._id)
         .then(team => {
@@ -169,7 +169,7 @@ exports.removeTip = async (req, res, next) => {
         })
 };
 
-exports.addEscalation = async (req, res, next) => {
+exports.addEscalation = (req, res, next) => {
     if (!req.session.team) {
         console.log('Must be a member of a team to add an escalation.');
         return res.status(400).json({message: 'Must be a member of a team to add an escalation.'})
@@ -198,7 +198,7 @@ exports.addEscalation = async (req, res, next) => {
         })
 }
 
-exports.advanceEscalation = async (req, res, next) => {
+exports.advanceEscalation = (req, res, next) => {
     const i = req.body.escalationIndex;
     const note = req.body.note;
     Team.findById(req.session.team._id)
@@ -221,7 +221,7 @@ exports.advanceEscalation = async (req, res, next) => {
         });
 };
 
-exports.removeEscalation = async (req, res, next) => {
+exports.removeEscalation = (req, res, next) => {
     const eI = req.body.escalationIndex;
     Team.findById(req.session.team._id)
         .then(team => {
@@ -234,7 +234,7 @@ exports.removeEscalation = async (req, res, next) => {
         })
 };
 
-exports.deleteTeam = async (req, res, next) => {
+exports.deleteTeam = (req, res, next) => {
     if (req.session.role !== 'Admin') {
         console.log('Insufficient User Permissions');
         return res.status(400).json({message: 'Contact an Admin to delete a team'}); 
@@ -250,7 +250,7 @@ exports.deleteTeam = async (req, res, next) => {
         })
 };
 
-exports.returnAllTeams = async (req, res, next) => {
+exports.returnAllTeams = (req, res, next) => {
     if (req.session.role !== 'Admin') {
         console.log('Insufficient User Permissions');
         return res.status(400).json({message: 'Contact an Admin to access all team data'}); 

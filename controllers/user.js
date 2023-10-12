@@ -1,41 +1,45 @@
 const User = require('../models/user');
 const Team = require('../models/team');
 
-exports.createUser = async (req, res, next) => {
+exports.createUser = (req, res, next) => {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password; // Hash and salt passwords for live production
     const role = req.body.role;
     const teamId = req.body.teamId;
-    const existingUser = await User.findOne({email: email});
-    const team = await Team.findById(teamId);
-    if (existingUser) {
-        return res.status(409).json({message: 'A user with that email already exists.'})
-    };
-    const newUser = new User({
-        name: name,
-        email: email,
-        password: password,
-        role: role,
-        teamId: teamId,
-        primaryTask: '',
-        floatTask: ''
-    });
-    newUser.save()
-        .then(result => {
-            console.log('User Created');
-            const newUser = User.findOne({email: email});
-            team.users.push(newUser._Id);
-            team.save();
-            res.json({message: 'User Created'});
+    User.findOne({email: email}).then(existingUser => {
+        if (existingUser) {
+            return res.status(409).json({message: 'A user with that email already exists.'})
+        } else {
+            team.findById(teamId).then(team => {
+                const newUser = new User({
+                    name: name,
+                    email: email,
+                    password: password,
+                    role: role,
+                    teamId: teamId,
+                    primaryTask: '',
+                    floatTask: ''
+                });
+                newUser.save()
+                    .then(result => {
+                        console.log('User Created');
+                        User.findOne({email: email}).then(user => {
+                            team.users.push(newUser._Id);
+                            team.save();
+                            res.json({message: 'User Created'});
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({message: 'User Creation Failed'})
+                    })
+                })
+            }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({message: 'User Creation Failed'})
-        })
-};
+}
 
-exports.findUserById = async (req, res, next) => {
+exports.findUserById = (req, res, next) => {
     const userId = req.body.userId;
     User.findById(userId).then(user => {
             user.password = 'redacted';
@@ -47,7 +51,7 @@ exports.findUserById = async (req, res, next) => {
         })
 }
 
-exports.changePassword = async (req, res, next) => {
+exports.changePassword = (req, res, next) => {
     const email = req.body.email;
     const oldPassword = req.body.oldPassword;
     const newPassword = req.body.newPassword;
@@ -64,7 +68,7 @@ exports.changePassword = async (req, res, next) => {
         })
 };
 
-exports.assignTasks = async (req, res, next) => {
+exports.assignTasks = (req, res, next) => {
     const email = req.body.email;
     const primaryTask = req.body.primaryTask;
     const floatTask = req.body.floatTask;
@@ -79,7 +83,7 @@ exports.assignTasks = async (req, res, next) => {
         })
 }
 
-exports.deleteUser = async (req, res, next) => {
+exports.deleteUser = (req, res, next) => {
     const email = req.body.email;
     User.findOne({email: email})
         .then(user => {
@@ -93,7 +97,7 @@ exports.deleteUser = async (req, res, next) => {
         })
 }
 
-exports.updateUser = async (req, res, next) => {
+exports.updateUser = (req, res, next) => {
     if (req.session.role !== 'Admin') {
         console.log('Insufficient User Permissions');
         return res.status(400).json({message: 'Contact an Admin to Update Users'});
@@ -124,7 +128,7 @@ exports.updateUser = async (req, res, next) => {
     })
 }
 
-exports.repopulateUser = async (req, res, next) => {
+exports.repopulateUser = (req, res, next) => {
     if (!req.session.loggedIn) {
         console.log('Must be logged in');
         res.status(400).json({message: 'Must be logged in'})
@@ -141,7 +145,7 @@ exports.repopulateUser = async (req, res, next) => {
         })
 }
 
-exports.returnAllUsers = async (req, res, next) => {
+exports.returnAllUsers = (req, res, next) => {
     if (req.session.role !== 'Admin') {
         console.log('Insufficient User Permissions');
         return res.status(400).json({message: 'Contact an Admin to access all users data'});
