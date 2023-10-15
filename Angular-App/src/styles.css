@@ -6,6 +6,11 @@ Body {
     font-family: sans-serif;
 }
 
+:root {
+    --primary-color: #87E911;
+    --secondary-color: lightslategrey
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -13,8 +18,8 @@ Body {
     text-align: center;
     padding: 1rem;
     gap: 1rem;
-    background-color: lightslategray;
-    color: darkcyan;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
     margin: 0 auto;
     border-radius: 30px;
 }

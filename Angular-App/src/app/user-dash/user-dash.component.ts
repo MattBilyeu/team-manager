@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
 
-interface response {
-  message: string;
-}
-
 @Component({
   selector: 'app-user-dash',
   templateUrl: './user-dash.component.html',

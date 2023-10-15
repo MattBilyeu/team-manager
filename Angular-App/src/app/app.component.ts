@@ -17,11 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
               public loginService: LoginService) {}
 
   ngOnInit() {
-    if (!this.loginService.loggedIn) {
-      this.router.navigate(['/login']);
-    } else {
-      this.routeToDash();
-    };
+    this.router.navigate(['/login']);
     this.subscription = this.loginService.loggedIn.subscribe((result) => {
       if (result) {
         this.loggedIn = true;
@@ -31,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   routeToDash() {
+    console.log('Flag')
     if (this.loginService.user.role === 'Admin') {
       this.router.navigate(['/admin-dash']);
     } else if (this.loginService.user.role === 'Manager') {

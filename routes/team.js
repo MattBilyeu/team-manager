@@ -27,3 +27,5 @@ router.post('/remove-escalation', teamController.removeEscalation);
 router.post('/delete-team', teamController.deleteTeam);
 
 router.post('/get-teams', teamController.returnAllTeams);
+
+module.exports = router;

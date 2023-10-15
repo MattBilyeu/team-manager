@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Escalation } from 'src/app/models/escalation.model';
 import { LoginService } from 'src/app/services/login.service';
 import { TeamService } from 'src/app/services/team.service';

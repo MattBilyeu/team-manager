@@ -22,6 +22,10 @@ import { UserAdminComponent } from './admin-dash/user-admin/user-admin.component
 import { FormsModule } from '@angular/forms';
 import { UserUpdateComponent } from './admin-dash/user-admin/user-update/user-update.component';
 import { EscalationDetailComponent } from './escalations/escalation-detail/escalation-detail.component'
+import { LoginService } from './services/login.service';
+import { TeamService } from './services/team.service';
+import { UserService } from './services/user.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -48,9 +52,10 @@ import { EscalationDetailComponent } from './escalations/escalation-detail/escal
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [LoginService, TeamService, UserService, HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

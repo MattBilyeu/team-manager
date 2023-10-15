@@ -21,3 +21,5 @@ router.post('/find-user', userController.findUserById);
 router.post('/repopulate-user', userController.repopulateUser);
 
 router.post('/get-users', userController.returnAllUsers);
+
+module.exports = router;

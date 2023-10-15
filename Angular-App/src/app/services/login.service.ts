@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { Team } from '../models/team.model';
 import { Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class LoginService {
   loggedIn = new Subject<boolean>();
   user: User = new User('', '', '', '', '', new Team('', '', [], [], [], []), '', '');

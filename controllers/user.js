@@ -18,8 +18,8 @@ exports.createUser = (req, res, next) => {
                     password: password,
                     role: role,
                     teamId: teamId,
-                    primaryTask: '',
-                    floatTask: ''
+                    primaryTask: 'unassigned',
+                    floatTask: 'unassigned'
                 });
                 newUser.save()
                     .then(result => {

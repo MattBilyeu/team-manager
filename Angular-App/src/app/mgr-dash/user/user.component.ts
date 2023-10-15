@@ -5,10 +5,6 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { NgForm } from '@angular/forms';
 
-interface response {
-  message: string;
-}
-
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
