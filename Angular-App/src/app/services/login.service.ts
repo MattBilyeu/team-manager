@@ -21,23 +21,40 @@ export class LoginService {
     console.log(loginData);
     this.http.post('/login', loginData).subscribe(
       (foundUser: any) => {
-        const appUser = new User(
-          foundUser._id,
-          foundUser.name,
-          foundUser.email,
-          foundUser.password,
-          foundUser.role,
-          new Team(
-            foundUser.teamId._id,
-            foundUser.teamId.name,
-            foundUser.teamId.updates,
-            foundUser.teamId.tips,
-            foundUser.teamId.escalations,
-            foundUser.teamId.users
-          ),
-          foundUser.primaryTask,
-          foundUser.floatTask
-        );
+        console.log(foundUser);
+        let appUser
+        if (foundUser.role === 'Admin') {
+          appUser = new User(
+            foundUser._id,
+            foundUser.name,
+            foundUser.email,
+            foundUser.password,
+            foundUser.role,
+            new Team(
+              '','',[],[],[],[]
+            ),
+            'Admin',
+            'Admin'
+          )
+        } else {
+          appUser = new User(
+            foundUser._id,
+            foundUser.name,
+            foundUser.email,
+            foundUser.password,
+            foundUser.role,
+            new Team(
+              foundUser.teamId._id,
+              foundUser.teamId.name,
+              foundUser.teamId.updates,
+              foundUser.teamId.tips,
+              foundUser.teamId.escalations,
+              foundUser.teamId.users
+            ),
+            foundUser.primaryTask,
+            foundUser.floatTask
+          );
+        }
         this.user = appUser;
         this.loggedIn.next(true);
       },

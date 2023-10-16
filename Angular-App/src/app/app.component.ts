@@ -20,6 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
     this.subscription = this.loginService.loggedIn.subscribe((result) => {
       if (result) {
+        console.log('Routing tripped by loginservice subscription');
         this.loggedIn = true;
         this.routeToDash();
       }

@@ -4,7 +4,6 @@ const User = require('../models/user');
 exports.postLogin = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
-    console.log(req.body);
     User.findOne({email: email}).populate('teamId')
         .then(foundUser => {
             if (!foundUser || foundUser.password !== password) {
