@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { Team } from '../models/team.model';
 import { Subject } from 'rxjs';
@@ -15,7 +15,10 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(email: string, password: string) {
-    const loginData = { email, password };
+    const loginData = { 
+      email: email, 
+      password: password };
+    console.log(loginData);
     this.http.post('/login', loginData).subscribe(
       (foundUser: any) => {
         const appUser = new User(
