@@ -20,7 +20,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
     this.subscription = this.loginService.loggedIn.subscribe((result) => {
       if (result) {
-        console.log('Routing tripped by loginservice subscription');
         this.loggedIn = true;
         this.routeToDash();
       }
@@ -28,7 +27,6 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   routeToDash() {
-    console.log('Flag')
     if (this.loginService.user.role === 'Admin') {
       this.router.navigate(['/admin-dash']);
     } else if (this.loginService.user.role === 'Manager') {

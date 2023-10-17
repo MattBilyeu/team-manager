@@ -255,7 +255,7 @@ exports.returnAllTeams = (req, res, next) => {
         console.log('Insufficient User Permissions');
         return res.status(400).json({message: 'Contact an Admin to access all team data'}); 
     };
-    Team.find().toArray().then(teams => res.status(200).json(teams))
+    Team.find().then(teams => res.status(200).json(teams))
         .catch(err => {
             console.log(err);
             res.status(500).json({message: 'Team retrieval failed'});

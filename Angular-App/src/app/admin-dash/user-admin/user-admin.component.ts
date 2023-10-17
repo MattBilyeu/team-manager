@@ -25,9 +25,12 @@ export class UserAdminComponent implements OnInit {
   }
 
   createUser(form: NgForm) {
+    console.log('Create user function called within component.');
     const value = form.value;
-    this.userService.createUser(value.name, value.email, value.password, value.role, value.teamId);
-    this.refreshData();
+    this.userService.createUser(value.name, value.email, value.password, value.role, value.teamId).subscribe(result => {
+      console.log(result);
+      this.refreshData();
+    });
   }
 
   deleteUser(form: NgForm) {

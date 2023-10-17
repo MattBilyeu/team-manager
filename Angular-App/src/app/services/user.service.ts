@@ -9,6 +9,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   createUser(name: string, email: string, password: string, role: string, teamId: string) {
+    console.log()
     const body = {name: name, email: email, password: password, role: role, teamId: teamId};
     return this.http.post('/user/create-user', body);
   }

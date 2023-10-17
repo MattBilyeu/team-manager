@@ -18,10 +18,8 @@ export class LoginService {
     const loginData = { 
       email: email, 
       password: password };
-    console.log(loginData);
     this.http.post('/login', loginData).subscribe(
       (foundUser: any) => {
-        console.log(foundUser);
         let appUser
         if (foundUser.role === 'Admin') {
           appUser = new User(

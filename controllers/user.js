@@ -2,6 +2,7 @@ const User = require('../models/user');
 const Team = require('../models/team');
 
 exports.createUser = (req, res, next) => {
+    console.log('Create user middleware accessed');
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password; // Hash and salt passwords for live production
@@ -11,7 +12,7 @@ exports.createUser = (req, res, next) => {
         if (existingUser) {
             return res.status(409).json({message: 'A user with that email already exists.'})
         } else {
-            team.findById(teamId).then(team => {
+            Team.findById(teamId).then(team => {
                 const newUser = new User({
                     name: name,
                     email: email,
@@ -150,7 +151,7 @@ exports.returnAllUsers = (req, res, next) => {
         console.log('Insufficient User Permissions');
         return res.status(400).json({message: 'Contact an Admin to access all users data'});
     };
-    User.find().toArray().then(users => {
+    User.find().then(users => {
         users.forEach(user => {
             user.password = 'redacted';
         });
