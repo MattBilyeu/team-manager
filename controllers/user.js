@@ -8,11 +8,13 @@ exports.createUser = (req, res, next) => {
     const password = req.body.password; // Hash and salt passwords for live production
     const role = req.body.role;
     const teamId = req.body.teamId;
+    let targetTeam;
     User.findOne({email: email}).then(existingUser => {
         if (existingUser) {
             return res.status(409).json({message: 'A user with that email already exists.'})
         } else {
             Team.findById(teamId).then(team => {
+                targetTeam = team;
                 const newUser = new User({
                     name: name,
                     email: email,
@@ -23,13 +25,10 @@ exports.createUser = (req, res, next) => {
                     floatTask: 'unassigned'
                 });
                 newUser.save()
-                    .then(result => {
-                        console.log('User Created');
-                        User.findOne({email: email}).then(user => {
-                            team.users.push(user._Id);
-                            team.save();
-                            res.json({message: 'User Created'});
-                        })
+                    .then(savedUser => {
+                        targetTeam.users.push(savedUser._id);
+                        targetTeam.save();
+                        res.json({message: 'User Created'});
                     })
                     .catch(err => {
                         console.log(err);
