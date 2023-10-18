@@ -41,6 +41,7 @@ exports.createTeam = (req, res, next) => {
 exports.assignUser = (req, res, next) => {
     const userId = req.body.userId;
     const teamId = req.body.teamId;
+    let user;
     if (req.session.role !== 'Admin') {
         console.log('Insufficient User Permissions');
         return res.status(400).json({message: 'Contact an Admin to Update Users'});
@@ -50,6 +51,7 @@ exports.assignUser = (req, res, next) => {
             console.log('User not found');
             return res.status(404).json({message: 'User not found'});
         };
+        user = foundUser;
         Team.findById(teamId).then(team => {
             const alreadyExists = team.users.includes(userId);
             if (alreadyExists) {
@@ -58,13 +60,15 @@ exports.assignUser = (req, res, next) => {
             } else {
                 Team.find().then(teams => {
                     teams.forEach(team => {
-                        const foundIndex = team.users.findIndex(id => id.equals(userId));
+                        const foundIndex = team.users.findIndex(id => id === userId);
                         if (foundIndex !== -1) {
                             team.users.splice(foundIndex, 1);
                             team.save();
                         }
                     })
-                })
+                });
+                user.teamId = teamId;
+                user.save();
             };
             team.users.push(userId);
             team.save().then(result => res.status(201).json({message: 'User successfully assigned to team.'}))

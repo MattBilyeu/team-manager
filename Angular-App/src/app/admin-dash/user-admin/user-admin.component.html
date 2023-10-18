@@ -61,7 +61,7 @@
             <select name="email" id="email" ngModel required>
                 <option *ngFor="let user of users" [value]="user.email">{{ user.name }}, {{ user.email }}</option>
             </select>
-            <button type="submit" [disabled]="!c.valid">Delete User</button>
+            <button type="submit" [disabled]="!d.valid">Delete User</button>
         </form>
     </div>
 </div>

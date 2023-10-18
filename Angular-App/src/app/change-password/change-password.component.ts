@@ -15,7 +15,7 @@ export class ChangePasswordComponent {
 
   changePassword(form: NgForm) {
     const value = form.value;
-    this.userService.changePassword(value.email, value.oldPassword, value.newPassword);
+    this.userService.changePassword(value.email, value.oldPassword, value.newPassword).subscribe();
   }
 
 }

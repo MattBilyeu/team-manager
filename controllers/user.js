@@ -26,7 +26,7 @@ exports.createUser = (req, res, next) => {
                     .then(result => {
                         console.log('User Created');
                         User.findOne({email: email}).then(user => {
-                            team.users.push(newUser._Id);
+                            team.users.push(user._Id);
                             team.save();
                             res.json({message: 'User Created'});
                         })
@@ -86,15 +86,28 @@ exports.assignTasks = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
     const email = req.body.email;
+    let targetUserId;
     User.findOne({email: email})
         .then(user => {
             if (!user) {
                 console.log('User not found');
                 return res.status(404).json({message: 'User not found'});
             } else {
+                console.log(user);
+                targetUserId = user._Id;
                 user.deleteOne({email: email})
                     .then(result => res.status(200).json({message: 'User Deleted'}))
-            }
+            };
+            Team.find().then(teams => {
+                teams.forEach(team => {
+                    const foundIndex = team.users.findIndex(id => id === targetUserId);
+                    if (foundIndex !== -1) {
+                        console.log(team);
+                        team.users.splice(foundIndex, 1);
+                        team.save();
+                    }
+                })
+            });
         })
 }
 

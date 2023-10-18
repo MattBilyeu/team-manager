@@ -24,19 +24,13 @@ export class TeamAdminComponent implements OnInit {
               private userService: UserService) {}
 
   ngOnInit(){
-    this.teamService.returnAllTeams()
-      .subscribe((result: Team[]) => {
-        this.teams = result;
-      })
-    this.userService.returnAllUsers()
-      .subscribe((result: User[]) => {
-        this.users = result;
-      })
+    this.repopulateData();
   }
 
   createTeam(form: NgForm) {
     this.teamService.createTeam(form.value.name).subscribe((result: response) => {
       this.response = result.message;
+      this.repopulateData();
     })
   }
 
@@ -44,6 +38,7 @@ export class TeamAdminComponent implements OnInit {
     const value = form.value;
     this.teamService.assignUser(value.userId, value.teamId).subscribe((result: response) => {
       this.response = result.message;
+      this.repopulateData();
     })
   }
 
@@ -57,6 +52,18 @@ export class TeamAdminComponent implements OnInit {
   deleteTeam(teamId: string) {
     this.teamService.deleteTeam(teamId).subscribe((result: response) => {
       this.response = result.message;
+      this.repopulateData();
     })
+  }
+
+  repopulateData() {
+    this.teamService.returnAllTeams()
+      .subscribe((result: Team[]) => {
+        this.teams = result;
+      })
+    this.userService.returnAllUsers()
+      .subscribe((result: User[]) => {
+        this.users = result;
+      })
   }
 }
