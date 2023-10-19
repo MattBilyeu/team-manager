@@ -33,8 +33,9 @@ export class MgrUpdateComponent implements OnInit {
       const notAcknowledged = [];
       this.loginService.user.teamId.users.forEach(async (userId: string) => {
         if (update.acknowledged.findIndex((id) => id === userId) === -1) {
-          const userName = await this.userService.returnUserById(userId).subscribe((user: User) => {return user.name});
-          notAcknowledged.push(userName)
+          await this.userService.returnUserById(userId).subscribe((user: User) => {
+            notAcknowledged.push(user.name);
+          });
         }
       });
       const packagedUpdate = {update, notAcknowledged};

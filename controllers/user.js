@@ -2,7 +2,6 @@ const User = require('../models/user');
 const Team = require('../models/team');
 
 exports.createUser = (req, res, next) => {
-    console.log('Create user middleware accessed');
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password; // Hash and salt passwords for live production
@@ -92,21 +91,24 @@ exports.deleteUser = (req, res, next) => {
                 console.log('User not found');
                 return res.status(404).json({message: 'User not found'});
             } else {
-                console.log(user);
-                targetUserId = user._Id;
-                user.deleteOne({email: email})
-                    .then(result => res.status(200).json({message: 'User Deleted'}))
+                User.findOneAndDelete({_id: user._id})
+                .then(user => {
+                    targetUserId = user._id;
+                    Team.find().then(teams => {
+                        teams.forEach(team => {
+                            const foundIndex = team.users.findIndex(id => id.toString() === targetUserId.toString());
+                            console.log(foundIndex);
+                            if (foundIndex !== -1) {
+                                team.users.splice(foundIndex, 1);
+                                team.save().then(result => {
+                                    res.status(200).json({message: 'User Deleted'});
+                                });
+                            }
+                        }) 
+                    })
+                });
             };
-            Team.find().then(teams => {
-                teams.forEach(team => {
-                    const foundIndex = team.users.findIndex(id => id === targetUserId);
-                    if (foundIndex !== -1) {
-                        console.log(team);
-                        team.users.splice(foundIndex, 1);
-                        team.save();
-                    }
-                })
-            });
+
         })
 }
 
@@ -142,15 +144,15 @@ exports.updateUser = (req, res, next) => {
 }
 
 exports.repopulateUser = (req, res, next) => {
-    if (!req.session.loggedIn) {
+    if (!req.session.isLoggedIn) {
         console.log('Must be logged in');
-        res.status(400).json({message: 'Must be logged in'})
+        return res.status(400).json({message: 'Must be logged in'})
     };
     User.findById(req.session.loginId).populate('teamId')
         .then(user => {
-            req.session.role = foundUser.role;
-            req.session.team = foundUser.teamId;
-            return res.status(200).json(foundUser);
+            req.session.role = user.role;
+            req.session.team = user.teamId;
+            return res.status(200).json(user);
         })
         .catch(err => {
             console.log(err);

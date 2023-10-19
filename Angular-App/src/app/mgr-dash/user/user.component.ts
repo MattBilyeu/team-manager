@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
-import { TeamService } from 'src/app/services/team.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { NgForm } from '@angular/forms';
@@ -12,19 +11,28 @@ import { NgForm } from '@angular/forms';
 })
 export class UserComponent implements OnInit {
   response: string = '';
-  users: User[];
+  users: User[] = [];
 
-  constructor(private teamService: TeamService,
-              private userService: UserService,
+  constructor(private userService: UserService,
               private loginService: LoginService) {}
 
   ngOnInit() {
     this.loginService.user.teamId.users.forEach(userId => {
       this.userService.returnUserById(userId)
         .subscribe((user: User) => {
-          this.users.push(user);
+          const newUser = new User(
+            user._id,
+            user.name,
+            user.email,
+            'redacted',
+            user.role,
+            user.teamId,
+            user.primaryTask,
+            user.floatTask
+          );
+          this.users.push(newUser);
         })
-    })
+    });
   }
 
   createUser(form: NgForm) {
@@ -38,16 +46,19 @@ export class UserComponent implements OnInit {
 
   assignTasks(form: NgForm) {
     const value = form.value;
+    console.log('assignTasks component function value', value);
     this.userService.assignTasks(value.email, value.primaryTask, value.floatTask)
     .subscribe(result => {
       this.loginService.repopulateUser();
     });
   }
 
-  deleteUser(email: string) {
-    this.userService.deleteUser(email)
-    .subscribe(result => {
-      this.loginService.repopulateUser();
-    });
+  deleteUser(user: User, email: string) {
+    console.log(email);
+    console.log(user);
+    // this.userService.deleteUser(email)
+    // .subscribe(result => {
+    //   this.loginService.repopulateUser();
+    // });
   }
 }

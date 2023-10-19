@@ -30,15 +30,15 @@
         <form (ngSubmit)="assignTasks(t)" #t="ngForm">
             <div class="group">
                 <label for="primaryTask">Primary Task:</label>
-                <input type="text" id="primaryTask" name="primaryTask" ngModel required [value]="user.primaryTask">
+                <input type="text" id="primaryTask" name="primaryTask" ngModel required [ngModel]="user.primaryTask">
             </div>
             <div class="group">
                 <label for="floatTask">Float Task:</label>
-                <input type="text" id="floatTask" name="floatTask" ngModel required [value]="user.floatTask">
+                <input type="text" id="floatTask" name="floatTask" ngModel required [ngModel]="user.floatTask">
             </div>
-            <input style="display: none" type="text" id="email" name="email" [value]="user.email">
+            <input style="display: none" type="text" id="email" name="email" ngModel [ngModel]="user.email">
             <button type="submit">Assign Tasks</button>
         </form>
-        <button (click)="deleteUser(user.email)">Delete User</button>
+        <button (click)="deleteUser(user, user.email)">Delete User</button>
     </div>
 </div>

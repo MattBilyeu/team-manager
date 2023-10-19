@@ -20,6 +20,7 @@ export class UserService {
   }
 
   assignTasks(email: string, primaryTask: string, floatTask: string) {
+    console.log('user service values for email, primaryTask, and floatTask', email, primaryTask, floatTask);
     const body = {email: email, primaryTask: primaryTask, floatTask: floatTask};
     return this.http.post('/user/assign-tasks', body);
   }
