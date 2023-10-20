@@ -112,8 +112,12 @@ exports.acknowledgeUpdate = (req, res, next) => {
     const userId = req.body.userId;
     Team.findById(req.session.team._id)
         .then(team => {
-            team.updates.acknowledged[updateIndex].push(userId);
-            team.save().then(result => res.status(201).json({message: 'Update acknowledged'}))
+            team.updates[updateIndex].acknowledged.push(userId);
+            console.log('post push update: ', team.updates[updateIndex]); // Shows the userId in the acknowledged array
+            team.save().then(result => {
+                console.log(result.updates[updateIndex]); // This console log is triggered and it shows the userId in the acknowledged array
+                res.status(201).json({message: 'Update acknowledged'});
+            }).catch(err => console.log(err));
         })
         .catch(err => {
             console.log(err);

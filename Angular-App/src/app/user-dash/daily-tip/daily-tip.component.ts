@@ -12,14 +12,15 @@ interface Tip {
   styleUrls: ['./daily-tip.component.css']
 })
 export class DailyTipComponent implements OnInit {
-  tip: Tip;
+  tip: Tip = {category: '', text: ''};
 
   constructor(private loginService: LoginService) {}
 
   ngOnInit() {
-    const tips = this.loginService.user.teamId.tips;
-    console.log(tips);
-    const index = Math.floor(Math.random()*tips.length)-1;
-    this.tip = tips[index]
+    const tips: Tip[] = this.loginService.user.teamId.tips;
+    const index = Math.floor(Math.random()*tips.length);
+    console.log(tips[index]);
+    this.tip.category = tips[index].category;
+    this.tip.text = tips[index].text;
   }
 }
