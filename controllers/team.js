@@ -1,21 +1,13 @@
 const Team = require('../models/team');
 const User = require('../models/user');
 
-peerReviewerFound = async function(team) {
-    try {
-        const populatedTeam = await Team.findById(team._id).populate('users');
-        let peerReviewer;
-        for (let user of populatedTeam.users) {
-            if(user.role === 'Peer Reviewer') {
-                peerReviewer = user;
-                return peerReviewer;
-            }
-        };
-        return null;
-    }
-    catch(err) {
-        console.log(err);
-    }
+peerReviewerFound = function(users) {
+    users.forEach(user => {
+        if (user.role === 'Peer Review') {
+            return true
+        }
+    });
+    return false;
 };
 
 exports.createTeam = (req, res, next) => {
@@ -112,10 +104,8 @@ exports.acknowledgeUpdate = (req, res, next) => {
     const userId = req.body.userId;
     Team.findById(req.session.team._id)
         .then(team => {
-            team.updates[updateIndex].acknowledged.push(userId);
-            console.log('post push update: ', team.updates[updateIndex]); // Shows the userId in the acknowledged array
+            team.updates[updateIndex].acknowledged.push(userId.toString());
             team.save().then(result => {
-                console.log(result.updates[updateIndex]); // This console log is triggered and it shows the userId in the acknowledged array
                 res.status(201).json({message: 'Update acknowledged'});
             }).catch(err => console.log(err));
         })
@@ -183,14 +173,16 @@ exports.addEscalation = (req, res, next) => {
         return res.status(400).json({message: 'Must be a member of a team to add an escalation.'})
     };
     const title = req.body.title;
-    const text = req.body.text;
-    const ownerId = req.body.userId;
+    const text = req.body.note;
+    console.log(text);
+    const ownerId = req.body.ownerId;
     let stage = 'Peer Review';
-    Team.findById(req.session.team._id)
+    Team.findById(req.session.team._id).populate('users')
         .then(team => {
-            if (!peerReviewerFound(team)) {
+            if (!peerReviewerFound(team.users)) {
                 stage = 'Manager'
             };
+            console.log(text);
             const escalation = {
                 title: title,
                 notes: [text],

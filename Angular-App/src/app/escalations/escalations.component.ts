@@ -22,7 +22,7 @@ interface packagedEscalation {
   styleUrls: ['./escalations.component.css']
 })
 export class EscalationsComponent implements OnInit {
-  escalations: packagedEscalation[];
+  escalations: packagedEscalation[] = [];
   response: string;
   user: User;
   selectedEscalationIndex: number;
@@ -43,10 +43,10 @@ export class EscalationsComponent implements OnInit {
       };
       if (
           packagedEscalation.escalation.stage === 'Peer Review' && this.user.role === 'Peer Reviewer' || 
-          packagedEscalation.escalation.stage === 'Member' && packagedEscalation.escalation.ownerId === this.user._id ||
+          packagedEscalation.escalation.stage === 'Member' && packagedEscalation.escalation.owner === this.user._id ||
           packagedEscalation.escalation.stage === 'Manager' && this.user.role === 'Manager'
         ) {
-        await this.userService.returnUserById(e.ownerId).subscribe((owner: User) => {packagedEscalation.escalation.ownerId = owner.name});
+        await this.userService.returnUserById(e.owner).subscribe((owner: User) => {packagedEscalation.escalation.owner = owner.name});
         this.escalations.push(packagedEscalation);
       }
     })
