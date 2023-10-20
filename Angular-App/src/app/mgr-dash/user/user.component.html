@@ -39,6 +39,6 @@
             <input style="display: none" type="text" id="email" name="email" ngModel [ngModel]="user.email">
             <button type="submit">Assign Tasks</button>
         </form>
-        <button (click)="deleteUser(user, user.email)">Delete User</button>
+        <button (click)="deleteUser(user.email)">Delete User</button>
     </div>
 </div>

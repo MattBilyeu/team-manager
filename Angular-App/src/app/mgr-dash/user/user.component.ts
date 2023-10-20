@@ -53,12 +53,10 @@ export class UserComponent implements OnInit {
     });
   }
 
-  deleteUser(user: User, email: string) {
-    console.log(email);
-    console.log(user);
-    // this.userService.deleteUser(email)
-    // .subscribe(result => {
-    //   this.loginService.repopulateUser();
-    // });
+  deleteUser(email: string) {
+    this.userService.deleteUser(email)
+    .subscribe(result => {
+      this.loginService.repopulateUser();
+    });
   }
 }

@@ -18,6 +18,7 @@ export class DailyTipComponent implements OnInit {
 
   ngOnInit() {
     const tips = this.loginService.user.teamId.tips;
+    console.log(tips);
     const index = Math.floor(Math.random()*tips.length)-1;
     this.tip = tips[index]
   }
