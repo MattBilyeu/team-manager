@@ -29,7 +29,8 @@ export class EscalationDetailComponent implements OnInit {
               private route: ActivatedRoute){}
 
   ngOnInit() {
-    this.escalation = this.loginService.user.teamId.escalations[this.escalationIndex]
+    this.escalation = this.loginService.user.teamId.escalations[this.escalationIndex];
+    console.log(this.escalation);
   }
 
   advanceEscalation(form: NgForm) {

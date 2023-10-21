@@ -13,7 +13,7 @@
             <button type="submit">Add Escalation</button>
         </form>
     </div>
-    <div class="subcontainer" *ngFor="let e of escalations; let i = index" (click)="selectEscalation(i)">
+    <div class="subcontainer" *ngFor="let e of escalations; let i = index">
         <div class="group">
             <label for="title">Title:</label>
             <p>{{ e.escalation.title }}</p>
@@ -22,9 +22,7 @@
             <label for="owner">Owner</label>
             <p>{{ e.escalation.owner }}</p>
         </div>
-        <button>View</button>
+        <button (click)="selectEscalation(i)">View</button>
     </div>
 </div>
-<div class="container" *ngIf="selectedEscalationIndex">
-    <app-escalation-detail [index]="selectedEscalationIndex"></app-escalation-detail>
-</div>
+<app-escalation-detail *ngIf="selectedEscalationIndex !== undefined" [index]="selectedEscalationIndex"></app-escalation-detail>
