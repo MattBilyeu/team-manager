@@ -22,4 +22,6 @@ router.post('/repopulate-user', userController.repopulateUser);
 
 router.post('/get-users', userController.returnAllUsers);
 
+router.post('/togglePeerReview', userController.togglePeerReview);
+
 module.exports = router;

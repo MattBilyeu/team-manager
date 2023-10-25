@@ -160,6 +160,22 @@ exports.repopulateUser = (req, res, next) => {
         })
 }
 
+exports.togglePeerReview = (req, res, next) => {
+    const userId = req.body.userId;
+    User.findById(userId).then(user => {
+        if (!user) {
+            return res.status(400).json({message: 'User not found'});
+        } else {
+            if (user.role === 'Member') {
+                user.role = 'Peer Review';
+            } else if (user.role === 'Peer Review') {
+                user.role = 'Member';
+            }
+        }
+        user.save().then(result => res.status(201).json({message: 'User updated'}))
+    })
+}
+
 exports.returnAllUsers = (req, res, next) => {
     if (req.session.role !== 'Admin') {
         console.log('Insufficient User Permissions');

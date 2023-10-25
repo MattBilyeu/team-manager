@@ -44,4 +44,9 @@ export class UserService {
   returnAllUsers() {
     return this.http.post('/user/get-users', {})
   }
+
+  togglePeerReview(userId: string) {
+    const body = {userId: userId};
+    return this.http.post('/user/togglePeerReview', body);
+  }
 }

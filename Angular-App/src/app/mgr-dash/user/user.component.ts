@@ -17,6 +17,46 @@ export class UserComponent implements OnInit {
               private loginService: LoginService) {}
 
   ngOnInit() {
+    this.updateData();
+  }
+
+  createUser(form: NgForm) {
+    const value = form.value;
+    const teamId = this.loginService.user.teamId._id;
+    this.userService.createUser(value.name, value.email, value.password, value.role, teamId)
+      .subscribe(result => {
+        this.loginService.repopulateUser();
+        this.updateData();
+      });
+  }
+
+  assignTasks(form: NgForm) {
+    const value = form.value;
+    console.log('assignTasks component function value', value);
+    this.userService.assignTasks(value.email, value.primaryTask, value.floatTask)
+    .subscribe(result => {
+      this.loginService.repopulateUser();
+      this.updateData();
+    });
+  }
+
+  deleteUser(email: string) {
+    this.userService.deleteUser(email)
+    .subscribe(result => {
+      this.loginService.repopulateUser();
+      this.updateData();
+    });
+  }
+
+  togglePeerReview(userId: string) {
+    this.userService.togglePeerReview(userId).subscribe(result => {
+      this.loginService.repopulateUser();
+      this.updateData();
+    })
+  }
+
+  updateData() {
+    this.users = [];
     this.loginService.user.teamId.users.forEach(userId => {
       this.userService.returnUserById(userId)
         .subscribe((user: User) => {
@@ -32,31 +72,6 @@ export class UserComponent implements OnInit {
           );
           this.users.push(newUser);
         })
-    });
-  }
-
-  createUser(form: NgForm) {
-    const value = form.value;
-    const teamId = this.loginService.user.teamId._id;
-    this.userService.createUser(value.name, value.email, value.password, value.role, teamId)
-      .subscribe(result => {
-        this.loginService.repopulateUser();
-      });
-  }
-
-  assignTasks(form: NgForm) {
-    const value = form.value;
-    console.log('assignTasks component function value', value);
-    this.userService.assignTasks(value.email, value.primaryTask, value.floatTask)
-    .subscribe(result => {
-      this.loginService.repopulateUser();
-    });
-  }
-
-  deleteUser(email: string) {
-    this.userService.deleteUser(email)
-    .subscribe(result => {
-      this.loginService.repopulateUser();
     });
   }
 }

@@ -4,7 +4,6 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
 import { TeamService } from '../services/team.service';
 import { Escalation } from '../models/escalation.model';
-import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 interface response {
@@ -30,8 +29,7 @@ export class EscalationsComponent implements OnInit {
 
   constructor(private loginService: LoginService,
               private userService: UserService,
-              private teamService: TeamService,
-              private router: Router) {}
+              private teamService: TeamService) {}
 
   ngOnInit() {
     this.user = this.loginService.user;
@@ -42,7 +40,7 @@ export class EscalationsComponent implements OnInit {
         index: index
       };
       if (
-          packagedEscalation.escalation.stage === 'Peer Review' && this.user.role === 'Peer Reviewer' || 
+          packagedEscalation.escalation.stage === 'Peer Review' && this.user.role === 'Peer Review' || 
           packagedEscalation.escalation.stage === 'Member' && packagedEscalation.escalation.owner === this.user._id ||
           packagedEscalation.escalation.stage === 'Manager' && this.user.role === 'Manager'
         ) {

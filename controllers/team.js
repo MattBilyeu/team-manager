@@ -2,11 +2,11 @@ const Team = require('../models/team');
 const User = require('../models/user');
 
 peerReviewerFound = function(users) {
-    users.forEach(user => {
+    for (let user of users) {
         if (user.role === 'Peer Review') {
-            return true
+            return true;
         }
-    });
+    };
     return false;
 };
 
@@ -201,8 +201,9 @@ exports.addEscalation = (req, res, next) => {
 exports.advanceEscalation = (req, res, next) => {
     const i = req.body.escalationIndex;
     const note = req.body.note;
-    Team.findById(req.session.team._id)
+    Team.findById(req.session.team._id).populate('users')
         .then(team => {
+            const peerReview = peerReviewerFound(team.users);
             if (team.escalations[i].stage === 'Member' && peerReview) {
                 team.escalations[i].stage = 'Peer Review';
             } else if (team.escalations[i].stage === 'Member' && !peerReview || team.escalations[i].stage === 'Peer Review') {
@@ -212,7 +213,6 @@ exports.advanceEscalation = (req, res, next) => {
             } 
             team.escalations[i].notes.push(note);
             team.save().then( result => {
-                console.log('Escalation advanced')
                 res.status(201).json({message: 'Escalation advanced'});
             })
             .catch(err => {

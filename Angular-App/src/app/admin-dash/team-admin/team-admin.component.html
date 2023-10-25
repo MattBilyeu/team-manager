@@ -1,6 +1,6 @@
-<p>team-admin works!</p>
 <div class="container">
-    <div class="subcontainer">
+    <div class="subcontainer vertical-flex">
+        <h3>Create Team</h3>
         <form (ngSubmit)="createTeam(c)" #c="ngForm">
             <div class="group">
                 <label for="name">New Team Name</label>
@@ -15,7 +15,8 @@
             <button type="submit">Create Team</button>
         </form>
     </div>
-    <div class="subcontainer">
+    <div class="subcontainer vertical-flex">
+        <h3>Assign User</h3>
         <form (ngSubmit)="assignUser(a)" #a="ngForm">
             <div class="group">
                 <select name="userId" id="userId" ngModel required>
@@ -31,7 +32,8 @@
             <button type="submit">Assign User</button>
         </form>
     </div>
-    <div class="subcontainer">
+    <div class="subcontainer vertical-flex">
+        <h3>Delete Team</h3>
         <form (ngSubmit)="confirmDeleteTeam(d)" #d="ngForm">
             <select name="teamId" id="teamId" ngModel required>
                 <option *ngFor="let team of teams" [value]="team._id">{{ team.name }}</option>

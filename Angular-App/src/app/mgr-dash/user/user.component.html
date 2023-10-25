@@ -1,6 +1,5 @@
-<p>user works!</p>
 <div class="container">
-    <div class="subcontainer">
+    <div class="subcontainer vertical-flex">
         <h3>Create User</h3>
         <form #c="ngForm" (ngSubmit)="createUser(c)">
             <div class="group">
@@ -26,7 +25,12 @@
         </form>
     </div>
     <div class="subcontainer" *ngFor="let user of users">
-        <h3>{{ user.name }}</h3>
+        <div class="vertical-flex">
+            <h3>{{ user.name }}</h3>
+            <h5 *ngIf="user.role === 'Member'">Role: Member</h5>
+            <h5 *ngIf="user.role === 'Peer Review'">Role: Peer Reviewer</h5>
+        </div>
+        <button (click)="togglePeerReview(user._id)">Toggle Peer Review</button>
         <form (ngSubmit)="assignTasks(t)" #t="ngForm">
             <div class="group">
                 <label for="primaryTask">Primary Task:</label>

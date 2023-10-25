@@ -1,19 +1,23 @@
-<p>create-tip works!</p>
 <div class="container">
-    <div class="subcontainer">
+    <div class="subcontainer vertical-flex">
+        <h3>Add Tip</h3>
         <form (ngSubmit)="addTip(t)" #t="ngForm">
             <div class="group">
                 <label for="category">Category: </label>
                 <input type="text" id="category" name="category" ngModel required>
             </div>
-            <label for="tipText">Tip Text</label>
-            <textarea name="text" id="text" cols="30" rows="10" ngModel required></textarea>
+            <div class="vertical-flex">
+                <label for="tipText">Tip Text</label>
+                <textarea name="text" id="text" cols="30" rows="10" ngModel required></textarea>
+            </div>
             <button type="submit">Submit</button>
         </form>
     </div>
     <div class="subcontainer" *ngFor="let tip of tips; let i = index">
-        <h3>Category: {{ tip.category }}</h3>
-        <p>{{ tip.text }}</p>
-        <button (click)="removeTip(i)">Remove Tip</button>
+        <div class="vertical-flex">
+            <h3>Category: {{ tip.category }}</h3>
+            <p>{{ tip.text }}</p>
+            <button (click)="removeTip(i)">Remove Tip</button>
+        </div>
     </div>
 </div>

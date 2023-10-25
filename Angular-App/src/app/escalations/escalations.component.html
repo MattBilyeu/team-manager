@@ -1,24 +1,24 @@
-<p>escalations works!</p>
-<div class="container">
-    <div class="subcontainer">
+<div class="container" *ngIf="escalations.length > 0">
+    <div class="subcontainer" *ngIf="user.role !== 'Manager'">
         <form (ngSubmit)="addEscalation(e)" #e="ngForm">
-            <div class="group">
+            <div class="vertical-flex center">
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title" ngModel required>
             </div>
-            <div class="group">
+            <div class="vertical-flex center">
                 <label for="note">Note:</label>
                 <textarea name="note" id="note" ngModel required cols="30" rows="10"></textarea>
             </div>
             <button type="submit">Add Escalation</button>
         </form>
     </div>
+    <h3>Pending Escalations</h3>
     <div class="subcontainer" *ngFor="let e of escalations; let i = index">
-        <div class="group">
+        <div class="vertical-flex center side-margins">
             <label for="title">Title:</label>
             <p>{{ e.escalation.title }}</p>
         </div>
-        <div class="group">
+        <div class="vertical-flex center side-margins">
             <label for="owner">Owner</label>
             <p>{{ e.escalation.owner }}</p>
         </div>

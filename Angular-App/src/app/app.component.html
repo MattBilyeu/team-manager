@@ -2,11 +2,11 @@
   <nav *ngIf="loggedIn">
     <div class="pageButtons">
       <button (click)="routeToDash()">Dashboard</button>
-      <button (click)="routeToUpdates()">Updates</button>
-      <button (click)="routeToTips()">Tips</button>
+      <button (click)="routeToUpdates()" *ngIf="loginService.user.role !== 'Admin'">Updates</button>
+      <button (click)="routeToTips()" *ngIf="loginService.user.role !== 'Admin'">Tips</button>
       <button (click)="routeToChangePassword()">Change Password</button>
     </div>
-    <button>Logout</button>
+    <button class="no-margin">Logout</button>
   </nav>
 </header>
 <router-outlet></router-outlet>

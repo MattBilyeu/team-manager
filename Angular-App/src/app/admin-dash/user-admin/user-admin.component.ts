@@ -50,7 +50,7 @@ export class UserAdminComponent implements OnInit {
     })
   }
 
-  selectUser(userId) {
+  selectUser(userId: string) {
     if(this.selectedId !== userId) {
       this.selectedId = userId;
     } else {

@@ -1,17 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Escalation } from 'src/app/models/escalation.model';
 import { LoginService } from 'src/app/services/login.service';
 import { TeamService } from 'src/app/services/team.service';
 
 interface response {
   message: string;
-}
-
-interface packagedEscalation {
-  escalation: Escalation,
-  index: number
 }
 
 @Component({
@@ -25,12 +19,10 @@ export class EscalationDetailComponent implements OnInit {
   escalation: Escalation;
 
   constructor(private teamService: TeamService,
-              private loginService: LoginService,
-              private route: ActivatedRoute){}
+              private loginService: LoginService){}
 
   ngOnInit() {
     this.escalation = this.loginService.user.teamId.escalations[this.escalationIndex];
-    console.log(this.escalation);
   }
 
   advanceEscalation(form: NgForm) {

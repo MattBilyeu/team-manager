@@ -1,6 +1,6 @@
-<p>create-update works!</p>
 <div class="container">
-    <div class="subcontainer">
+    <div class="subcontainer vertical-flex">
+        <h3>Create Update</h3>
         <form (ngSubmit)="addUpdate(u)" #u="ngForm">
             <div class="group">
                 <label for="category">Category:</label>
@@ -14,15 +14,17 @@
         </form>
     </div>
     <div class="subcontainer" *ngFor="let u of packagedUpdates; let i = index">
-        <div class="group">
+        <div class="vertical-flex">
             <h3>{{ u.update.category }}</h3>
-            <p>{{ u.update.text }}</p>
-            <p>Not Acknowledged by:</p>
+            <div>
+                <p>{{ u.update.text }}</p>
+                <p>Not Acknowledged by:</p>
+            </div>
             <ul>
                 <li *ngIf="u.notAcknowledged.length === 0">Acknowledged by All Members</li>
                 <li *ngFor="let memberName of u.notAcknowledged">{{ memberName }}</li>
             </ul>
+            <button (click)="removeUpdate(i)">Remove Update</button>
         </div>
-        <button (click)="removeUpdate(i)">Remove Update</button>
     </div>
 </div>
