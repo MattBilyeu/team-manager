@@ -1,7 +1,8 @@
-<p>updates works!</p>
 <div class="container">
-    <div class="group" *ngFor="let update of updates">
-        <h3>{{ update.category }}</h3>
-        <p>{{ update.text }}</p>
+    <div class="subcontainer" *ngFor="let update of updates">
+        <div class="vertical-flex">
+            <h3>{{ update.category }}</h3>
+            <p>{{ update.text }}</p>
+        </div>
     </div>
 </div>

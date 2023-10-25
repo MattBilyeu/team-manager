@@ -6,7 +6,9 @@
       <button (click)="routeToTips()" *ngIf="loginService.user.role !== 'Admin'">Tips</button>
       <button (click)="routeToChangePassword()">Change Password</button>
     </div>
-    <button class="no-margin">Logout</button>
+    <div class="pageButtons">
+      <button>Logout</button>
+    </div>
   </nav>
 </header>
 <router-outlet></router-outlet>

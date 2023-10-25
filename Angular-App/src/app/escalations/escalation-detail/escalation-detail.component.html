@@ -1,16 +1,17 @@
-<p>escalation-detail works!</p>
 <div class="container">
     <h3>Update Escalation</h3>
-    <hr>
+    <br>
     <h4>{{ escalation.title }}</h4>
     <div class="note" *ngFor="let note of escalation.notes">
         <p>{{ note }}</p>
         <hr>
     </div>
     <form #a="ngForm" (ngSubmit)="advanceEscalation(a)">
-        <h3>Add Note:</h3>
-        <textarea ngModel required name="note" id="note" cols="30" rows="10"></textarea>
-        <button type="submit">Advance Escalation</button>
+        <div class="vertical-flex center">
+            <h3>Add Note:</h3>
+            <textarea ngModel required name="note" id="note" cols="30" rows="10"></textarea>
+            <button type="submit">Advance Escalation</button>
+        </div>
     </form>
     <button (click)="removeEscalation()">Remove Escalation</button>
 </div>

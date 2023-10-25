@@ -1,7 +1,8 @@
-<p>tips works!</p>
 <div class="container">
     <div class="subcontainer" *ngFor="let tip of tips">
-        <h3>{{ tip.category }}</h3>
-        <p>{{ tip.text }}</p>
+        <div class="vertical-flex">
+            <h3>{{ tip.category }}</h3>
+            <p>{{ tip.text }}</p>
+        </div>
     </div>
 </div>
