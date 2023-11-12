@@ -7,6 +7,7 @@ import { UserDashComponent } from './user-dash/user-dash.component';
 import { UpdatesComponent } from './updates/updates.component';
 import { TipsComponent } from './tips/tips.component';
 import { EscalationDetailComponent } from './escalations/escalation-detail/escalation-detail.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
 
   {path: "updates", component: UpdatesComponent},
   {path: "tips", component: TipsComponent},
+  {path: "change-password", component: ChangePasswordComponent},
   {path: "escalation-detail/:index", component: EscalationDetailComponent}
 ];
 

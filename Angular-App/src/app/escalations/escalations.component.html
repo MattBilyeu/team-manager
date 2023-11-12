@@ -1,4 +1,4 @@
-<div class="container" *ngIf="escalations.length > 0">
+<div class="container">
     <div class="subcontainer" *ngIf="user.role !== 'Manager'">
         <form (ngSubmit)="addEscalation(e)" #e="ngForm">
             <div class="vertical-flex center">
@@ -12,17 +12,19 @@
             <button type="submit">Add Escalation</button>
         </form>
     </div>
-    <h3>Pending Escalations</h3>
-    <div class="subcontainer" *ngFor="let e of escalations; let i = index">
-        <div class="vertical-flex center side-margins">
-            <label for="title">Title:</label>
-            <p>{{ e.escalation.title }}</p>
+    <div class="pending" *ngIf="escalations.length > 0">
+        <h3>Pending Escalations</h3>
+        <div class="subcontainer" *ngFor="let e of escalations; let i = index">
+            <div class="vertical-flex center side-margins">
+                <label for="title">Title:</label>
+                <p>{{ e.escalation.title }}</p>
+            </div>
+            <div class="vertical-flex center side-margins">
+                <label for="owner">Owner</label>
+                <p>{{ e.escalation.owner }}</p>
+            </div>
+            <button (click)="selectEscalation(i)">View</button>
         </div>
-        <div class="vertical-flex center side-margins">
-            <label for="owner">Owner</label>
-            <p>{{ e.escalation.owner }}</p>
-        </div>
-        <button (click)="selectEscalation(i)">View</button>
     </div>
 </div>
 <app-escalation-detail *ngIf="selectedEscalationIndex !== undefined" [index]="selectedEscalationIndex"></app-escalation-detail>

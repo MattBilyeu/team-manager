@@ -9,7 +9,6 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   createUser(name: string, email: string, password: string, role: string, teamId: string) {
-    console.log()
     const body = {name: name, email: email, password: password, role: role, teamId: teamId};
     return this.http.post('/user/create-user', body);
   }
@@ -20,7 +19,6 @@ export class UserService {
   }
 
   assignTasks(email: string, primaryTask: string, floatTask: string) {
-    console.log('user service values for email, primaryTask, and floatTask', email, primaryTask, floatTask);
     const body = {email: email, primaryTask: primaryTask, floatTask: floatTask};
     return this.http.post('/user/assign-tasks', body);
   }

@@ -34,20 +34,28 @@ export class EscalationsComponent implements OnInit {
   ngOnInit() {
     this.user = this.loginService.user;
     const team = this.loginService.user.teamId;
+    this.escalations = [];
     team.escalations.forEach(async (e: Escalation, index: number) => {
+      const newEscalation = {...e};
       const packagedEscalation = {
-        escalation: e,
+        escalation: newEscalation,
         index: index
       };
       if (
-          packagedEscalation.escalation.stage === 'Peer Review' && this.user.role === 'Peer Review' || 
-          packagedEscalation.escalation.stage === 'Member' && packagedEscalation.escalation.owner === this.user._id ||
-          packagedEscalation.escalation.stage === 'Manager' && this.user.role === 'Manager'
+          e.stage === 'Peer Review' && this.user.role === 'Peer Review' || 
+          e.stage === 'Member' && e.owner === this.user._id ||
+          e.stage === 'Manager' && this.user.role === 'Manager'
         ) {
         await this.userService.returnUserById(e.owner).subscribe((owner: User) => {packagedEscalation.escalation.owner = owner.name});
         this.escalations.push(packagedEscalation);
       }
     })
+  }
+
+  postLetters(id: string) {
+    for (let i = 0; i < id.length; i++) {
+      console.log(id[i])
+    }
   }
 
   addEscalation(form: NgForm) {
